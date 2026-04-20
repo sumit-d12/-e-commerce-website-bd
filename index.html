@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuxTech | Premium Electronics Store</title>
+    <meta name="description" content="Luxury electronics store offering premium smartphones, laptops, and accessories">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#111111",
+                        secondary: "#D4AF37",
+                        accent: "#F5F5F5",
+                        beige: "#F8F4E3"
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'playfair': ['Playfair Display', 'serif']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'pulse-gold': 'pulseGold 2s infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        pulseGold: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.7' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .zoom-image {
+            transition: transform 0.3s ease;
+        }
+        .zoom-image:hover {
+            transform: scale(1.05);
+        }
+        .product-card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: box-shadow 0.3s ease;
+        }
+        .product-card-shadow:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        .gold-border {
+            border-bottom: 2px solid #D4AF37;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-beige font-poppins">
+    <!-- Loading Animation -->
+    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
+        <div class="animate-pulse-gold">
+            <div class="text-4xl font-playfair text-secondary">LuxTech</div>
+            <div class="text-sm text-gray-500 mt-2">Loading premium experience...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="bg-primary text-white sticky top-0 z-40 shadow-lg">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-playfair font-bold text-secondary">LuxTech</h1>
+                    <span class="ml-2 text-sm text-gray-400">Premium Electronics</span>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="hidden md:flex flex-1 max-w-xl mx-4">
+                    <div class="relative w-full">
+                        <input type="text" id="search-input" placeholder="Search smartphones, laptops, accessories..." class="w-full py-2 px-4 rounded-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-secondary">
+                        <button id="search-btn" class="absolute right-2 top-2 text-gray-400 hover:text-secondary"><i class="fas fa-search"></i></button>
+                        <div id="search-suggestions" class="absolute top-full left-0 w-full bg-gray-800 rounded-lg mt-1 hidden">
+                            <ul id="suggestion-list" class="py-2"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <ul id="nav-desktop" class="hidden md:flex space-x-8"></ul>
+
+                <!-- Cart & Wishlist -->
+                <div class="flex items-center space-x-6">
+                    <button id="wishlist-btn" class="text-gray-400 hover:text-secondary transition-colors">
+                        <i class="fas fa-heart"></i>
+                        <span class="hidden md:inline ml-1">Wishlist</span>
+                    </button>
+                    <button id="cart-btn" class="text-gray-400 hover:text-secondary transition-colors relative">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="hidden md:inline ml-1">Cart</span>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-secondary text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">0</span>
+                    </button>
+                    <button class="md:hidden" id="mobile-menu-btn">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="md:hidden mt-4 hidden">
+                <ul id="nav-mobile" class="space-y-3"></ul>
+                <div class="mt-4">
+                    <input type="text" placeholder="Search..." class="w-full py-2 px-4 rounded bg-gray-800 text-white">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Page Banner -->
+        <section class="bg-gradient-to-r from-primary to-gray-900 text-white py-12 md:py-20 animate-fade-in">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-8 md:mb-0">
+                        <h2 class="text-3xl md:text-5xl font-playfair font-bold mb-4">Premium Technology</h2>
+                        <p class="text-lg md:text-xl mb-6 opacity-90">Experience luxury electronics with cutting-edge performance and elegant design.</p>
+                        <button class="bg-secondary text-primary font-semibold py-3 px-8 rounded-lg hover:bg-yellow-600 transition-colors">Explore Collections</button>
+                    </div>
+                    <div class="md:w-1/2">
+                        <div class="relative">
+                            <img src="https://picsum.photos/600/400?random=101" alt="Premium smartphone and laptop display" class="rounded-lg shadow-2xl zoom-image">
+                            <div class="absolute -bottom-4 -right-4 bg-secondary text-primary py-2 px-6 rounded-lg shadow-lg">
+                                <span class="font-bold">Featured</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <section class="py-12 container mx-auto px-4">
+            <h3 class="text-2xl md:text-3xl font-playfair font-bold mb-8 text-center">Shop by Category</h3>
+            <div id="category-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="py-12 bg-accent">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-2xl md:text-3xl font-playfair font-bold">Featured Products</h3>
+                    <button class="text-primary hover:text-secondary font-semibold">View All</button>
+                </div>
+                <div id="featured-products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- Trending Products -->
+        <section class="py-12 container mx-auto px-4">
+            <h3 class="text-2xl md:text-3xl font-playfair font-bold mb-8 gold-border pb-2">Trending Now</h3>
+            <div id="trending-products" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="py-12 bg-primary text-white">
+            <div class="container mx-auto px-4">
+                <h3 class="text-2xl md:text-3xl font-playfair font-bold mb-8 text-center">Customer Reviews</h3>
+                <div id="testimonial-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-xl font-playfair font-bold text-white mb-4">LuxTech</h4>
+                    <p class="text-sm">Premium electronics for those who value excellence in technology and design.</p>
+                </div>
+                <div>
+                    <h5 class="text-lg font-semibold text-white mb-4">Quick Links</h5>
+                    <ul id="footer-links-1"></ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-semibold text-white mb-4">Support</h5>
+                    <ul id="footer-links-2"></ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-semibold text-white mb-4">Connect</h5>
+                    <div id="social-links" class="flex space-x-4"></div>
+                    <p class="mt-6 text-sm">Subscribe for exclusive offers</p>
+                    <div class="mt-2 flex">
+                        <input type="email" placeholder="Your email" class="py-2 px-4 bg-gray-800 rounded-l-lg w-full">
+                        <button class="bg-secondary text-primary py-2 px-4 rounded-r-lg hover:bg-yellow-600">Join</button>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800 text-center text-sm">
+                <p>&copy; 2023 LuxTech. All rights reserved. Luxury electronics store.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="absolute right-0 top-0 h-full w-full md:w-1/3 bg-white shadow-xl animate-slide-up">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-playfair font-bold">Your Cart</h3>
+                    <button id="close-cart" class="text-gray-500 hover:text-primary"><i class="fas fa-times"></i></button>
