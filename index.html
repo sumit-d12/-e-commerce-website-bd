@@ -31,7 +31,6 @@ body { font-family: Arial; }
   </div>
 </div>
 
-<!-- Title -->
 <h2 class="text-center text-3xl font-bold mt-6">Premium Electronics</h2>
 
 <!-- Products -->
@@ -47,28 +46,18 @@ body { font-family: Arial; }
 
 let cart = [];
 
-let products = [
-  {
-    name: "iPhone 15",
-    price: 80000,
-    img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569"
-  },
-  {
-    name: "Samsung S23",
-    price: 70000,
-    img: "https://images.unsplash.com/photo-1678652197831-2d180705cd2c"
-  },
-  {
-    name: "MacBook",
-    price: 120000,
-    img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8"
-  },
-  {
-    name: "Dell Laptop",
-    price: 90000,
-    img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853"
-  }
-];
+/* 50+ PRODUCTS */
+let products = [];
+
+for (let i = 1; i <= 60; i++) {
+  products.push({
+    name: i % 2 === 0 ? "Smartphone " + i : "Laptop " + i,
+    price: 30000 + i * 1500,
+    img: i % 2 === 0
+      ? "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"
+      : "https://images.unsplash.com/photo-1496181133206-80ce9b88a853"
+  });
+}
 
 function showProducts() {
   let html = "";
@@ -79,7 +68,8 @@ function showProducts() {
         <img src="${p.img}" class="h-40 w-full object-cover mb-2">
         <h3 class="font-bold">${p.name}</h3>
         <p>₹${p.price}</p>
-        <button onclick="add(${i})" class="bg-black text-white px-3 py-1 mt-2">
+        <button onclick="add(${i})"
+          class="bg-black text-white px-3 py-1 mt-2 hover:bg-yellow-500">
           Add
         </button>
       </div>
